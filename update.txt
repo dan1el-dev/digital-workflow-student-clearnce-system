@@ -1,0 +1,11 @@
+For a Digital Student Clearance System, each department should specify what the student needs to upload or complete before the clearance officer can approve it.
+
+Department	Requirement on Student Portal
+Academic Affairs-	Upload your admission letter, and any required academic credentials. Your documents will be verified before approval.
+Bursary-	Upload your school fees payment receipt. The Bursary Office will verify your payment before granting clearance.
+Student Affairs-	Upload proof of hostel allocation.
+College Office- upload your evidence of payment for departmental and college fee  .
+Library-	visit the libary for clearance verification
+ICT Centre-	Complete your course registration, provide evidence of Global IT Certification (if required), and upload the certificate or course registration form.
+Health Centre-	Upload your medical card number.
+Counselling-	Complete the online counselling form using the provided link and upload a screenshot of the successfully completed form.

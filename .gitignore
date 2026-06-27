@@ -1,0 +1,10 @@
+# Database
+database.sqlite
+
+# Uploaded documents
+uploads/*
+!uploads/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db

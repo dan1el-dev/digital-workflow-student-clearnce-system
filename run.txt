@@ -1,0 +1,7 @@
+ Start the PHP Development Server
+Start PHP's built-in development server from the project's root directory:
+
+bash
+php -S localhost:8000
+3. Access the Application
+Open your web browser and navigate to: http://localhost:8000
