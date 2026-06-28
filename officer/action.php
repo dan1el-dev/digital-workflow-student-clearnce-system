@@ -6,23 +6,24 @@ require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/mailer.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/validation.php';
 
 // Enforce officer auth
 check_auth('officer');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $log_id = $_POST['log_id'] ?? '';
-    $action = $_POST['action'] ?? '';
-    $remark = trim($_POST['remark'] ?? '');
-    $officer_id = $_SESSION['user_id'];
+    $log_id        = trim($_POST['log_id'] ?? '');
+    $action        = trim($_POST['action'] ?? '');
+    $remark        = trim($_POST['remark'] ?? '');
+    $officer_id    = $_SESSION['user_id'];
     $department_id = $_SESSION['department_id'];
 
-    if (empty($log_id) || !in_array($action, ['approve', 'reject'])) {
-        die("Invalid parameters.");
-    }
-
-    if ($action === 'reject' && empty($remark)) {
-        die("Rejection remark is required.");
+    // --- Validate inputs & business rules ---
+    $errors = validate_officer_action($log_id, $action, $remark, $department_id);
+    if (!empty($errors)) {
+        $_SESSION['error_message'] = $errors[0];
+        header('Location: dashboard.php');
+        exit();
     }
 
     try {

@@ -5,6 +5,7 @@
 require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/validation.php';
 
 // Enforce student auth
 check_auth('student');
@@ -13,17 +14,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student_id = $_SESSION['user_id'];
     $level = trim($_POST['level'] ?? '400L');
 
+    // --- Validate inputs & business rules ---
+    $errors = validate_clearance_submission($student_id, $level);
+    if (!empty($errors)) {
+        // Store first error in session and redirect back
+        $_SESSION['error_message'] = $errors[0];
+        header('Location: dashboard.php');
+        exit();
+    }
+
     try {
         $pdo->beginTransaction();
-
-        // 1. Verify no active request exists
-        $check_stmt = $pdo->prepare("SELECT request_id FROM clearance_requests WHERE student_id = ? AND status != 'rejected'");
-        $check_stmt->execute([$student_id]);
-        if ($check_stmt->fetch() !== false) {
-            $pdo->rollBack();
-            header('Location: dashboard.php');
-            exit();
-        }
 
         // 2. Insert new clearance request
         $request_id = generate_uuid();

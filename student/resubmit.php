@@ -6,6 +6,7 @@ require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/mailer.php';
+require_once __DIR__ . '/../includes/validation.php';
 
 // Enforce student role
 check_auth('student');
@@ -42,8 +43,10 @@ $success_message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $explanation = trim($_POST['explanation'] ?? '');
 
-    if (empty($explanation)) {
-        $error_message = 'Please provide an explanation of how the issue was resolved.';
+    // --- Validate inputs & business rules ---
+    $val_errors = validate_resubmission($department_id, $student_id, $explanation);
+    if (!empty($val_errors)) {
+        $error_message = $val_errors[0];
     } else {
         try {
             $pdo->beginTransaction();
