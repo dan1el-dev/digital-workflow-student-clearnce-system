@@ -1,6 +1,9 @@
 # Database
 database.sqlite
 
+# Environment variables (credentials — never commit)
+.env
+
 # Uploaded documents
 uploads/*
 !uploads/.gitkeep

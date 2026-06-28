@@ -26,7 +26,7 @@ function log_audit($user_id, $action, $affected_table = null, $affected_record_i
         $log_id = generate_uuid();
         $stmt = $pdo->prepare("
             INSERT INTO audit_logs (log_id, user_id, action, affected_table, affected_record_id, timestamp)
-            VALUES (?, ?, ?, ?, ?, datetime('now', '+1 hour'))
+            VALUES (?, ?, ?, ?, ?, NOW())
         ");
         $stmt->execute([$log_id, $user_id, $action, $affected_table, $affected_record_id]);
         return true;
